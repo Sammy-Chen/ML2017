@@ -2,6 +2,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 plt.switch_backend('TKAgg')
 import numpy as np
+import sys
 import csv
 
 def main():
@@ -12,13 +13,13 @@ def main():
     #w = (np.linalg.inv(X.T.dot(X) + rI ).dot(X.T).dot(y))
     #print(np.sqrt(((X.dot(w)-y)**2).mean()))
 
-    X = np.loadtxt('data/total.X', dtype = float, delimiter = ',')
+    X = np.loadtxt('total.X', dtype = float, delimiter = ',')
     #X_val = np.loadtxt('data/val.X', dtype = float, delimiter = ',')
     #X_train = np.loadtxt('data/train.X', dtype = float, delimiter = ',')
-    y = np.loadtxt('data/total.y', dtype = float)
+    y = np.loadtxt('total.y', dtype = float)
     #y_val = np.loadtxt('data/val.y', dtype = float)
     #y_train = np.loadtxt('data/train.y', dtype = float)
-    X_test = np.loadtxt('data/test.X', dtype = float, delimiter = ',')
+    X_test = np.loadtxt('test.X', dtype = float, delimiter = ',')
 
     I = np.eye(X.shape[1], dtype=int)
     I[0][0] = 0
@@ -27,17 +28,17 @@ def main():
     #w_lin = (np.linalg.inv(X_train.T.dot(X_train) + I * lamda).dot(X_train.T).dot(y_train))
     #w = gradientDescent(X_train, y_train, 0.1, 2000, lamda)
     #np.savetxt('data/wvalue', w, '%s')
-    w_lin = (np.linalg.inv(X.T.dot(X) + I * lamda).dot(X.T).dot(y))
+    #w_lin = (np.linalg.inv(X.T.dot(X) + I * lamda).dot(X.T).dot(y))
     w = gradientDescent(X, y, 0.1, 2000, lamda)
     #print('normal,train: ', np.sqrt(((X_train.dot(w_lin)-y_train)**2).mean()))
     #print('grad, train: ', np.sqrt(((X_train.dot(w)-y_train)**2).mean()))
     #print('normal,val: ', np.sqrt(((X_val.dot(w_lin)-y_val)**2).mean()))
     #print('grad, val: ', np.sqrt(((X_val.dot(w)-y_val)**2).mean()))
-    print('grad, total: ', np.sqrt(((X.dot(w)-y)**2).mean()))
-    print('normal, total: ', np.sqrt(((X.dot(w_lin)-y)**2).mean()))
+    #print('grad, total: ', np.sqrt(((X.dot(w)-y)**2).mean()))
+    #print('normal, total: ', np.sqrt(((X.dot(w_lin)-y)**2).mean()))
 
     ans = X_test.dot(w)
-    with open('res1.csv', 'w') as result:
+    with open(sys.argv[1], 'w') as result:
         myWriter = csv.DictWriter(result, fieldnames = ['id', 'value'])
         myWriter.writeheader()
         for i in range(240):
@@ -49,8 +50,6 @@ def gradientDescent(X, y, eta, iteration, lamda):
     batch = 32
     batchNum = X.shape[0] // batch
     for i in range(iteration):
-        if i % 10 == 0:
-            print(i)
         for j in range(batchNum):
            Xbatch = X[j*batch:(j+1)*batch]
            ybatch = y[j*batch:(j+1)*batch]

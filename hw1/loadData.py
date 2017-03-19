@@ -50,7 +50,7 @@ for i in range(36+9*17):
 """#-----------------
 
 featureIndex = np.array(list(range(18+18+9*17)))
-selectIndex = (np.loadtxt('data/myselect', dtype = int))
+selectIndex = (np.loadtxt('myselect', dtype = int))
 featureNum = len(featureIndex)
 pmIndex = 9
 
@@ -77,13 +77,13 @@ np.savetxt('data/val.y', X[4652:,0], '%s')
 np.savetxt('data/train.X', X[:4652,1:], '%s', ',')
 np.savetxt('data/train.y', X[:4652,0], '%s')
 """
-np.savetxt('data/total.X', X[:,selectIndex+1], '%s', ',')
-np.savetxt('data/total.y', X[:,0], '%s')
+np.savetxt('total.X', X[:,selectIndex+1], '%s', ',')
+np.savetxt('total.y', X[:,0], '%s')
 
-np.savetxt('data/val.X', X[4652:,selectIndex+1], '%s', ',')
-np.savetxt('data/val.y', X[4652:,0], '%s')
-np.savetxt('data/train.X', X[:4652,selectIndex+1], '%s', ',')
-np.savetxt('data/train.y', X[:4652,0], '%s')
+#np.savetxt('data/val.X', X[4652:,selectIndex+1], '%s', ',')
+#np.savetxt('data/val.y', X[4652:,0], '%s')
+#np.savetxt('data/train.X', X[:4652,selectIndex+1], '%s', ',')
+#np.savetxt('data/train.y', X[:4652,0], '%s')
 
 
 
@@ -112,4 +112,4 @@ for i in range(240):
             tX[i][18*18+1+index*9:18*18+1+index*9 + 9] = tdata[i*18+j]*tdata[i*18+k]
             index = index + 1
 tX[:,1:] = (tX[:,1:] - Xmean[2:]) / Xstd[2:]
-np.savetxt('data/test.X', tX[:,selectIndex], '%s', ',')
+np.savetxt('test.X', tX[:,selectIndex], '%s', ',')
