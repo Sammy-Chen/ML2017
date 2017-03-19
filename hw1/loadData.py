@@ -3,7 +3,7 @@ import csv
 import sys
 
 data = np.zeros((4320,24))
-interval = 10 #hours
+interval = 10
 
 with open(sys.argv[1], 'r', encoding = 'big5') as trainData:
   i = 0
@@ -15,7 +15,6 @@ with open(sys.argv[1], 'r', encoding = 'big5') as trainData:
         data[i - 1] = np.array(row[3:], dtype = float)
     i = i + 1
   
-#ndata is the basic 18 features taken every 10 hours
 ndata = np.zeros((18, 240 * 24))
 
 for i in range(18):
@@ -23,7 +22,6 @@ for i in range(18):
 
 mdataNum = 480 - interval + 1
 dataNum = 12 * mdataNum 
-#conData is ndata taken from consecutive 10 hours 
 conData = np.zeros((18+18+9*17, dataNum * 10))
 
 
@@ -31,23 +29,12 @@ for i in range(12):
     for j in range(mdataNum):
         conData[:18,(i*mdataNum+j)*interval:(i*mdataNum+j+1)*interval] = ndata[:,480*i+j:480*i+j+interval]
 
-#conData = np.vstack((conData, conData ** 2))
 conData[18:36] = conData[:18]**2
 index = 0
 for i in range(17):
     for j in range(i+1,18):
         conData[36+index] = conData[i] * conData[j]
         index = index + 1
-
-
-"""#normalize feature
-mu = conData.mean(1)
-sigma = conData.std(1)
-for i in range(36+9*17):
-    for j in range(dataNum):
-        if j % 10 is not 9:
-            conData[i][j] = (conData[i][j] - mu[i]) / sigma[i]
-"""#-----------------
 
 featureIndex = np.array(list(range(18+18+9*17)))
 selectIndex = (np.loadtxt('myselect', dtype = int))
@@ -68,24 +55,8 @@ X[:,2:] = (X[:,2:] - Xmean[2:]) / Xstd[2:]
 
 np.random.seed(0)
 np.random.shuffle(X)
-"""
-np.savetxt('data/total.X', X[:,1:], '%s', ',')
-np.savetxt('data/total.y', X[:,0], '%s')
-
-np.savetxt('data/val.X', X[4652:,1:], '%s', ',')
-np.savetxt('data/val.y', X[4652:,0], '%s')
-np.savetxt('data/train.X', X[:4652,1:], '%s', ',')
-np.savetxt('data/train.y', X[:4652,0], '%s')
-"""
 np.savetxt('total.X', X[:,selectIndex+1], '%s', ',')
 np.savetxt('total.y', X[:,0], '%s')
-
-#np.savetxt('data/val.X', X[4652:,selectIndex+1], '%s', ',')
-#np.savetxt('data/val.y', X[4652:,0], '%s')
-#np.savetxt('data/train.X', X[:4652,selectIndex+1], '%s', ',')
-#np.savetxt('data/train.y', X[:4652,0], '%s')
-
-
 
 #--------------------------------------------------------------
 
