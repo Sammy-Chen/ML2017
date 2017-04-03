@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python3.4 logistic.py $3 $4 $5 $6 
+python3.4 nn.py $3 $4 $5 $6 
