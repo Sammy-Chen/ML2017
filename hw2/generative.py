@@ -69,11 +69,11 @@ def likelihood(X, index1, index2, mean, std, p_c1, p_c2):
     likeli_c2 = np.zeros(X.shape[0])
     for i in range(X.shape[0]):
         for j in range(len(index1)):
-            likeli_c1[i] += np.log(gaussian(X[i, index1[j]], mean[j][1], std[j][1]))
-            likeli_c2[i] += np.log(gaussian(X[i, index1[j]], mean[j][0], std[j][0]))
+            likeli_c1[i] += np.log(gaussian(X[i, index1[j]], mean[j][1], std[j][1]) + np.exp(-8))
+            likeli_c2[i] += np.log(gaussian(X[i, index1[j]], mean[j][0], std[j][0]) + np.exp(-8))
         for j in range(len(index2)):
-            likeli_c1[i] += np.log(((1 - X[i,index2[j]]) * (1 - p_c1[j])) + X[i,index2[j]] * p_c1[index2[j]])
-            likeli_c2[i] += np.log(((1 - X[i,index2[j]]) * (1 - p_c2[j])) + X[i,index2[j]] * p_c2[index2[j]])
+            likeli_c1[i] += np.log(((1 - X[i,index2[j]]) * (1 - p_c1[j])) + X[i,index2[j]] * p_c1[index2[j]] + np.exp(-8) )
+            likeli_c2[i] += np.log(((1 - X[i,index2[j]]) * (1 - p_c2[j])) + X[i,index2[j]] * p_c2[index2[j]] + np.exp(-8) )
 
     return (likeli_c1, likeli_c2)
 
