@@ -3,3 +3,6 @@ hw1/test_X.csv
 hw1/sampleSubmission.csv
 hw1/__pycache__/*
 hw2/data
+hw3/semi.py
+hw3/my_semi.sh
+hw3/my_train.sh
