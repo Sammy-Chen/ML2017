@@ -1,0 +1,2 @@
+We set the directory of training data and testing data at  final/src/data
+Since we didn't upload data set, so to run best.py, it is required to put those data in the directory specified above.
